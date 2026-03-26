@@ -5,7 +5,7 @@ import api from "../../shared/api";
 export default function EditCourse() {
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const [error, setError] = useState("");
   const isNew = id === "new";
 
   const [form, setForm] = useState({
@@ -69,7 +69,7 @@ export default function EditCourse() {
   // ================= VIDEO =================
   async function uploadVideo(file) {
     if (!file) return;
-
+    setError("");
     setUploading(true);
     setProgress(0);
 
@@ -103,17 +103,17 @@ export default function EditCourse() {
             ...p,
             introBunnyVideoId: videoId,
           }));
+          setError("");
         } else {
-          console.error("Upload failed:", xhr.responseText);
-          alert("Upload failed");
+
+          setError("Upload failed");
         }
 
         setUploading(false);
       };
 
       xhr.onerror = () => {
-        console.error("Upload error");
-        alert("Upload error");
+        setError("Upload error");
         setUploading(false);
       };
 
@@ -165,106 +165,133 @@ export default function EditCourse() {
         {isNew ? "Create Course" : "Edit Course"}
       </h2>
 
-      <form onSubmit={save} className="space-y-6">
+      <form onSubmit={save} className="space-y-8 max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-sm border border-gray-100">
 
-        {/* TITLE */}
-        <input
-          className="w-full border rounded-lg p-3"
-          placeholder="Course Title"
-          value={form.title}
-          onChange={(e) =>
-            setForm({ ...form, title: e.target.value })
-          }
-        />
+        {/* SECTION: BASIC INFO */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">Course Details</h3>
 
-        {/* DESCRIPTION */}
-        <textarea
-          className="w-full border rounded-lg p-3"
-          rows={4}
-          placeholder="Description"
-          value={form.description}
-          onChange={(e) =>
-            setForm({ ...form, description: e.target.value })
-          }
-        />
-
-        {/* PRICE */}
-        <div className="grid grid-cols-2 gap-4">
-          <input
-            className="border rounded-lg p-3"
-            placeholder="Price"
-            type="number"
-            value={form.price}
-            onChange={(e) =>
-              setForm({ ...form, price: e.target.value })
-            }
-          />
-
-          <input
-            className="border rounded-lg p-3"
-            placeholder="Old Price"
-            type="number"
-            value={form.oldPrice}
-            onChange={(e) =>
-              setForm({ ...form, oldPrice: e.target.value })
-            }
-          />
-        </div>
-
-        {/* THUMBNAIL */}
-        <div>
-          <p className="text-sm mb-2">Cover Image</p>
-
-          {form.thumbnail && (
-            <img
-              src={
-                import.meta.env.VITE_API_URL.replace("/api", "") +
-                form.thumbnail
-              }
-              className="w-full h-48 object-cover rounded-lg mb-3"
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Course Title</label>
+            <input
+              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+              placeholder="e.g. Advanced React Architecture"
+              value={form.title}
+              onChange={(e) => setForm({ ...form, title: e.target.value })}
             />
-          )}
+          </div>
 
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              uploadThumbnail(e.target.files[0])
-            }
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <textarea
+              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              rows={4}
+              placeholder="What will students learn?"
+              value={form.description}
+              onChange={(e) => setForm({ ...form, description: e.target.value })}
+            />
+          </div>
         </div>
 
-        {/* INTRO VIDEO */}
-        <div>
-          <p className="text-sm mb-2">Intro Video</p>
+        {/* SECTION: PRICING */}
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Current Price ($)</label>
+            <input
+              className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-green-500 outline-none"
+              type="number"
+              value={form.price}
+              onChange={(e) => setForm({ ...form, price: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Old Price ($)</label>
+            <input
+              className="w-full border border-gray-300 rounded-lg p-3 bg-gray-50 text-gray-500"
+              type="number"
+              value={form.oldPrice}
+              onChange={(e) => setForm({ ...form, oldPrice: e.target.value })}
+            />
+          </div>
+        </div>
 
-          {uploading && (
-            <div className="text-sm text-gray-500">
-              Uploading {progress}%
+        {/* SECTION: MEDIA */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          {/* THUMBNAIL */}
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-gray-700">Cover Image</label>
+            <div className="relative group border-2 border-dashed border-gray-300 rounded-xl p-4 hover:border-blue-400 transition-colors">
+              {form.thumbnail ? (
+                <img
+                  src={import.meta.env.VITE_API_URL.replace("/api", "") + form.thumbnail}
+                  className="w-full h-32 object-cover rounded-lg mb-2"
+                />
+              ) : (
+                <div className="h-32 bg-gray-50 rounded-lg flex items-center justify-center text-gray-400 text-xs text-center">
+                  No image uploaded
+                </div>
+              )}
+              <label className="cursor-pointer block text-center text-sm font-semibold text-blue-600 hover:text-blue-700">
+                Upload New
+                <input
+                  type="file"
+                  className="hidden"
+                  accept="image/*"
+                  onChange={(e) => uploadThumbnail(e.target.files[0])}
+                />
+              </label>
             </div>
-          )}
+          </div>
 
-          <input
-            type="file"
-            accept="video/*"
-            onChange={(e) =>
-              uploadVideo(e.target.files[0])
-            }
-          />
-
-          {form.introBunnyVideoId && (
-            <p className="text-xs text-green-600 mt-2">
-              Video uploaded ✔
-            </p>
-          )}
+          {/* INTRO VIDEO */}
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-gray-700">Intro Video</label>
+            <div className="border-2 border-dashed border-gray-300 rounded-xl p-4 flex flex-col items-center justify-center min-h-[160px]">
+              {uploading ? (
+                <div className="w-full space-y-2">
+                  <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-blue-600 transition-all duration-300" style={{ width: `${progress}%` }}></div>
+                  </div>
+                  <p className="text-xs text-center text-gray-500">Uploading {progress}%</p>
+                </div>
+              ) : (
+                <label className="cursor-pointer text-center">
+                  <div className="bg-blue-50 p-3 rounded-full mb-2 inline-block">
+                    <span className="text-blue-600 text-xl">▶</span>
+                  </div>
+                  <p className="text-sm font-semibold text-gray-600">Click to upload video</p>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="video/*"
+                    onChange={(e) => {
+                      uploadVideo(e.target.files[0]);
+                      e.target.value = null;
+                    }}
+                  />
+                </label>
+              )}
+              {form.introBunnyVideoId && !uploading && (
+                <p className="text-xs font-medium text-green-600 mt-2 flex items-center gap-1">
+                  <span className="text-lg">✓</span> Video Ready
+                </p>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* SAVE */}
-        <button className="px-6 py-3 bg-black text-white rounded-lg">
-          {isNew ? "Create Course" : "Save Changes"}
-        </button>
+        {/* SAVE BUTTON */}
+        <div className="pt-4">
+          <button className="w-full md:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-95">
+            {isNew ? "Create New Course" : "Update Course Settings"}
+          </button>
+        </div>
 
       </form>
+      {error && (
+        <p className="text-red-500 text-sm mt-2">{error}</p>
+      )}
     </div>
   );
 }
