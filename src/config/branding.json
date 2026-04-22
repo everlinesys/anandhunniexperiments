@@ -1,74 +1,73 @@
 {
   "default": {
-    "siteName": "Anandh Unni Experiments",
-    "tagline": "Master Video Editing, Graphics & AI Visual Creation",
-
-    "primaryColor": "#0f172a",
+    "siteName": "Axiom Learning",
+    "tagline": "NEET • KEAM • Entrance Excellence Starts Here",
+    "primaryColor": "#0b1f3a",
     "theme": "darkModern",
 
     "logo": "/auelogo.jpg",
-    "students": "200",
+    "students": "1500+",
 
     "colors": {
-      "primary": "#0f172a",
+      "primary": "#0b1f3a",
       "accent": "#22c55e"
     },
 
     "hero": {
-      "title": "Create Stunning Visuals with Editing, Graphics & AI",
-      "subtitle": "Learn video editing, motion graphics, and AI-powered design techniques to build content that stands out. From beginner to advanced workflows, everything you need is here.",
+      "title": "Crack NEET & KEAM with Structured, Result-Oriented Coaching",
+      "subtitle": "Master Physics, Chemistry, and Biology with expert guidance, proven strategies, and exam-focused preparation. Build concepts, practice smart, and perform with confidence.",
       "image": "/hero.png",
 
-      "bunnyVideoId": "replace-with-your-video-id",
-      "poster": "/hero-poster.jpg"
+      "bunnyVideoId": "231392af-8a40-4586-9879-897d3f02b853",
+      "poster": "/axiom-hero-poster.jpg"
     },
 
     "preview": {
-      "badge": "Creative Skill Academy",
-      "title": "If you can imagine it, you can create it.",
-      "highlight": "Master Editing, Graphics & AI Tools",
-      "description": "Our courses focus on real-world creative workflows — from editing cinematic videos to designing high-quality graphics and using AI tools to speed up your process. Learn by building actual projects, not just theory.",
+      "badge": "Entrance Coaching Institute",
+      "title": "Discipline. Strategy. Rank.",
+      "highlight": "Focused Preparation for NEET & KEAM",
+      "description": "Axiom Learning is built for serious aspirants. Our structured curriculum, regular tests, and concept-driven teaching ensure deep understanding and consistent performance improvement. We train students not just to study — but to rank.",
 
-      "bunnyVideoId": "replace-with-your-video-id",
+      "bunnyVideoId": "replace-with-demo-class-video",
       "libraryId": "your-library-id",
-      "poster": "/preview-poster.jpg",
+      "poster": "/axiom-preview.jpg",
 
       "videoUrl": "https://youtube.com",
 
       "perks": [
-        { "value": "PROJECT", "label": "Real Project-Based Learning" },
-        { "value": "AI POWER", "label": "AI-Driven Creative Workflows" }
+        { "value": "TEST SERIES", "label": "Weekly & Full-Length Mock Tests" },
+        { "value": "RANK FOCUS", "label": "Exam-Oriented Strategy & Analysis" }
       ]
     },
 
     "reviews": [
       {
-        "name": "Arjun Nair",
-        "role": "Content Creator",
+        "name": "Aditya Krishnan",
+        "role": "NEET Aspirant",
         "rating": 5,
-        "text": "I learned professional video editing and started creating content that actually stands out. The AI tools section is a game changer."
+        "text": "The structured classes and regular tests helped me stay consistent. Concepts are explained very clearly."
       },
       {
-        "name": "Fathima Shirin",
-        "role": "Freelance Designer",
+        "name": "Anjali S",
+        "role": "KEAM Student",
         "rating": 5,
-        "text": "Finally understood how to combine design + editing + AI. My freelance income improved a lot after this."
+        "text": "Axiom's test analysis and revision plans made a huge difference in my preparation."
       },
       {
-        "name": "Nikhil Raj",
-        "role": "YouTuber",
+        "name": "Rahul Dev",
+        "role": "Dropper Batch",
         "rating": 4,
-        "text": "Clear, practical, and straight to the point. Helped me level up my video quality and workflow."
+        "text": "Focused teaching and proper guidance helped me improve my rank significantly."
       }
     ],
 
     "contact": {
-      "email": "support@anandhunni.com",
+      "email": "support@axiomlearning.in",
       "phone": "+91 90000 00000",
       "whatsapp": "+91 90000 00000",
       "address": "Kerala, India",
-      "supportName": "Creative Support Team",
-      "image": "/support-dark.jpg"
+      "supportName": "Axiom Academic Support",
+      "image": "/axiom-support.jpg"
     }
   }
 }

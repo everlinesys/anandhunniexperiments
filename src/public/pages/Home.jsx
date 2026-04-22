@@ -5,12 +5,14 @@ import CTASection from "../components/CTASection";
 import Enroll from "../components/Enroll";
 import Courses from "./Courses";
 import FeaturedCoursesStrip from "../components/CourseStrip";
+import ResultsStrip from "../components/ResultStrip";
 
 
 export default function Home() {
   return (
     <div className="">
       <Hero />
+      <ResultsStrip/>
       <PreviewVideo />
 
       <FeaturedCoursesStrip />

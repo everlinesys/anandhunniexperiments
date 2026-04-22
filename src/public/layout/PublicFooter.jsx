@@ -1,94 +1,124 @@
 import { Link } from "react-router-dom";
 import { useBranding } from "../../shared/hooks/useBranding";
+import { motion } from "framer-motion";
 
 export default function PublicFooter() {
   const brand = useBranding();
 
-  return (
-    <footer
-      className="text-gray-100"
-      style={{ backgroundColor: brand.primaryColor }}
-    >
-      <div className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-4 gap-8">
+  const container = {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: 0.15 },
+    },
+  };
 
-        {/* Brand */}
-        <div>
-          <h3 className="text-white text-lg font-bold mb-4">
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4 },
+    },
+  };
+
+  return (
+    <footer className="relative bg-[#0b0f1a] text-white overflow-hidden">
+
+      {/* 🌈 glow */}
+      <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-purple-500/10 blur-3xl rounded-full" />
+      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-green-500/10 blur-3xl rounded-full" />
+
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="relative z-10 max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-4 gap-10"
+      >
+
+        {/* BRAND */}
+        <motion.div variants={item}>
+          <h3 className="text-lg font-black mb-4">
             {brand.siteName}
           </h3>
-          <p className="text-sm text-gray-200">
-            {brand.tagline}
+          <p className="text-sm text-white/60 max-w-xs">
+            {brand.tagline || "Build skills. Crack exams. Achieve your goals."}
           </p>
-        </div>
+        </motion.div>
 
-        {/* Platform Links */}
-        <div>
-          <h4 className="text-white font-semibold mb-4">Platform</h4>
-          <ul className="space-y-2 text-sm">
+        {/* PLATFORM */}
+        <motion.div variants={item}>
+          <h4 className="font-semibold mb-4 text-white/90">Platform</h4>
+          <ul className="space-y-2 text-sm text-white/60">
             <li>
-              <Link to="/courses" className="hover:text-white" style={{ color: brand.colors.accent }}>
+              <Link to="/courses" className="hover:text-white transition">
                 Courses
               </Link>
             </li>
             <li>
-              <Link to="/pricing" className="hover:text-white" style={{ color: brand.colors.accent }}>
+              <Link to="/pricing" className="hover:text-white transition">
                 Pricing
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-white" style={{ color: brand.colors.accent }}>
+              <Link to="/contact" className="hover:text-white transition">
                 Contact
               </Link>
             </li>
           </ul>
-        </div>
+        </motion.div>
 
-        {/* Legal */}
-        <div>
-          <h4 className="text-white font-semibold mb-4">Legal</h4>
-          <ul className="space-y-2 text-sm">
+        {/* LEGAL */}
+        <motion.div variants={item}>
+          <h4 className="font-semibold mb-4 text-white/90">Legal</h4>
+          <ul className="space-y-2 text-sm text-white/60">
             <li>
-              <Link to="/terms" className="hover:text-white" style={{ color: brand.colors.accent }}>
+              <Link to="/terms" className="hover:text-white transition">
                 Terms
               </Link>
             </li>
             <li>
-              <Link to="/privacy" className="hover:text-white" style={{ color: brand.colors.accent }}>
+              <Link to="/privacy" className="hover:text-white transition">
                 Privacy
               </Link>
             </li>
           </ul>
-        </div>
+        </motion.div>
 
         {/* CTA */}
-        <div>
-          <h4 className="text-white font-semibold mb-4" >
-            Start Learning Today
+        <motion.div variants={item}>
+          <h4 className="font-semibold mb-4 text-white/90">
+            Start Your Journey
           </h4>
 
-          <Link
-            to="/register"
-            className="inline-block px-5 py-2 rounded-lg text-sm font-medium transition"
-            style={{
-              backgroundColor: brand.colors.accent,
-              color: brand.colors.primary,
-            }}
-          >
-            Create Account
-          </Link>
-        </div>
-      </div>
+          <p className="text-sm text-white/60 mb-4">
+            Join thousands of students preparing for NEET & KEAM.
+          </p>
 
-      {/* Bottom Bar */}
-      <div
-        className="text-center py-4 text-sm"
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.15)",
-          color: "rgba(255,255,255,0.7)",
-        }}
+          <motion.div whileHover={{ scale: 1.05 }}>
+            <Link
+              to="/register"
+              className="inline-block px-6 py-3 rounded-xl text-sm font-bold shadow-lg"
+              style={{
+                background: brand.colors.accent,
+                color: brand.colors.primary,
+              }}
+            >
+              🚀 Create Account
+            </Link>
+          </motion.div>
+        </motion.div>
+
+      </motion.div>
+
+      {/* 🔥 BOTTOM BAR */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        className="border-t border-white/10 text-center py-5 text-sm text-white/50"
       >
-        © {new Date().getFullYear()} Everline Systems. All rights reserved.
-      </div>
+        © {new Date().getFullYear()} {brand.siteName}. All rights reserved.
+      </motion.div>
     </footer>
   );
 }

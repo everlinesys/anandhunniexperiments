@@ -1,19 +1,22 @@
 import { MdWhatsapp } from "react-icons/md";
 import { useBranding } from "../../shared/hooks/useBranding";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import WhatsAppFloat from "./WhatsappFloat";
+
 export default function Hero() {
   const brand = useBranding();
+  const [open, setOpen] = useState(true);
+
   const initials =
     brand.name
       ?.replace(/[^A-Za-z ]/g, "")
       .split(" ")
       .filter(Boolean)
-      .map(w => w[0].toUpperCase())
+      .map((w) => w[0].toUpperCase())
       .slice(0, 2) || ["A", "U"];
 
   const avatarLetters = [...initials, ...initials].slice(0, 4);
-  const [open, setOpen] = useState(true);
-
   const whatsappNumber = brand.contact?.whatsapp;
 
   const openWhatsApp = () => {
@@ -24,201 +27,173 @@ export default function Hero() {
     );
   };
 
+  // 🔥 animation system
+  const container = {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 30 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 },
+    },
+  };
+
   return (
-    <section className={`${brand.theme.layout.container} relative overflow-hidden`}>
+    <section className={`${brand.theme.layout.container} relative overflow-hidden bg-[#0b0f1a] text-white`}>
 
-      {/* Decorative Background Elements (Leave As Design Layer) */}
-      {/* <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full blur-3xl opacity-30"
-        style={{ backgroundColor: brand.colors.primary }}
-      ></div>
+      {/* URGENCY */}
+      <div className="text-center text-xs py-2 font-bold bg-yellow-400 text-black">
+        🚨 Limited Offer: Save 70% Today – Price Increasing Soon
+      </div>
 
-      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 rounded-full blur-3xl opacity-20"
-        style={{ backgroundColor: brand.colors.primary }}
-      ></div> */}
+      {/* glow */}
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] blur-3xl opacity-30"
+        style={{ background: "radial-gradient(circle, #6366f1, transparent)" }}
+      />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] blur-3xl opacity-20"
+        style={{ background: "radial-gradient(circle, #22c55e, transparent)" }}
+      />
 
       <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center p-8 md:p-16">
 
         {/* LEFT */}
-        <div className="space-y-6 text-center md:text-left">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="space-y-6 text-center md:text-left"
+        >
 
-          {/* Image top mobile only */}
-          <div className="relative md:hidden md:block group ">
-
-            {brand.hero?.image ? (
-              <img
-                src={brand.hero.image}
-                alt="Learning"
-                className={`relative z-10 ${brand.theme.shape?.radius || ""}  object-cover aspect-[4/3] w-full `}
-              />
-            ) : (
-              <div className={`relative z-10 ${brand.theme.layout.panel} aspect-[4/3] w-full flex items-center justify-center`}>
-                <div className="text-white/10 font-black text-8xl uppercase -rotate-12 select-none tracking-tighter">
-                  Learn
-                </div>
-              </div>
-            )}
-
-          </div>
           {/* Badge */}
-          <div className={`inline-flex items-center gap-2 px-3 py-1 ${brand.theme.layout.panel} ${brand.theme.shape?.radius || ""}`}>
+          <motion.div variants={item} className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
             <span className="relative flex h-2 w-2">
-              <span
-                className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
                 style={{ backgroundColor: brand.colors.primary }}
               />
-              <span
-                className="relative inline-flex rounded-full h-2 w-2"
+              <span className="relative inline-flex rounded-full h-2 w-2"
                 style={{ backgroundColor: brand.colors.accent }}
               />
             </span>
-
-            <span className={`text-[10px] uppercase tracking-widest ${brand.theme.text?.label || ""}`}>
-              Live Learning Portal
+            <span className="text-[10px] uppercase tracking-widest">
+              AI Powered Learning Platform
             </span>
-          </div>
+          </motion.div>
 
-          {/* Title */}
-          <h1
-            className="text-4xl md:text-5xl font-bold leading-[1.1] tracking-tight"
-            // style={{ color: brand.colors.primary }}
-          >
-            {brand.hero?.title || "Welcome to eLearn"}
-          </h1>
+          {/* TITLE */}
+          <motion.h1 variants={item} className="text-4xl md:text-5xl font-black leading-tight">
+            {brand.hero?.title ||
+              "Launch Your Own AI Learning Platform"}
+          </motion.h1>
 
-          {/* Subtitle */}
-          <p className={`${brand.theme.text?.body || ""} opacity-80 max-w-lg text-xl md:text-xl`}>
-            {brand.hero?.subtitle || "Practical courses for real growth."}
-          </p>
+          {/* SUBTITLE */}
+          <motion.p variants={item} className="text-white/70 max-w-lg text-lg">
+            {brand.hero?.subtitle ||
+              "Create, sell & automate your courses with AI tools."}
+          </motion.p>
 
-          {/* CTA Row */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+          {/* STATS */}
+          <motion.div variants={item} className="flex flex-wrap gap-3 text-xs font-bold text-white/60 justify-center md:justify-start">
+            {(brand.hero?.stats || [
+              "₹5L+ Earnings",
+              "10,000+ Students",
+              "500+ Educators",
+            ]).map((item, i) => (
+              <span key={i}>{item}</span>
+            ))}
+          </motion.div>
 
-            {/* Button */}
-            <a
+          {/* CTA */}
+          <motion.div variants={item} className="flex gap-4 justify-center md:justify-start">
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href="#courses"
-              className={`group inline-flex items-center justify-center px-8 py-4 font-black text-sm tracking-wide transition-all duration-300 active:scale-95 ${brand.theme.button.primary} ${brand.theme.shape?.radius || ""}`}
-              style={{ background: brand.colors.accent }}
+              className="px-8 py-4 font-bold rounded-xl"
+              style={{
+                background: brand.colors.accent,
+                color: brand.colors.primary,
+              }}
             >
-              <span className="flex items-center gap-2" >
-                Browse Courses
-                <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </span>
-            </a>
+              Get Started
+            </motion.a>
 
-            {/* Avatars */}
-            <div className="flex -space-x-3 overflow-hidden">
-              {avatarLetters.map((letter, i) => (
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              href="#demo"
+              className="px-6 py-4 border border-white/10 bg-white/5 rounded-xl"
+            >
+              Watch Demo
+            </motion.a>
+          </motion.div>
+
+          {/* avatars */}
+          <motion.div variants={item} className="flex items-center gap-4 justify-center md:justify-start">
+            <div className="flex -space-x-3">
+              {avatarLetters.map((l, i) => (
                 <div
                   key={i}
-                  className="inline-flex h-8 w-8 rounded-full border border-black/20 items-center justify-center text-[11px] font-black"
+                  className="h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold border border-white/10"
                   style={{
                     backgroundColor: brand.colors.primary,
                     color: brand.colors.accent,
                   }}
                 >
-                  {letter}
+                  {l}
                 </div>
               ))}
-
-              <div className="pl-5 pt-3 text-xs font-bold opacity-70 uppercase tracking-tighter">
-                +{brand.students} Students
-              </div>
             </div>
 
-          </div>
-        </div>
-
-        {/* RIGHT IMAGE */}
-        <div className="relative hidden md:block group">
-
-          {/* <div className={`absolute inset-0 ${brand.theme.layout.panel} rotate-3 transition-transform group-hover:rotate-6`} /> */}
-
-          {brand.hero?.image ? (
-            <img
-              src={brand.hero.image}
-              alt="Learning"
-              className={`relative z-10 ${brand.theme.shape?.radius || ""}  object-cover aspect-[4/3] w-full `}
-            />
-          ) : (
-            <div className={`relative z-10 ${brand.theme.layout.panel} aspect-[4/3] w-full flex items-center justify-center`}>
-              <div className="text-white/10 font-black text-8xl uppercase -rotate-12 select-none tracking-tighter">
-                Learn
-              </div>
+            <div className="text-xs text-white/50">
+              +{brand.students} Students
             </div>
-          )}
+          </motion.div>
+        </motion.div>
 
-        </div>
+        {/* RIGHT */}
+        <motion.div
+          initial={{ opacity: 0, x: 80 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
+          className="relative hidden md:block"
+        >
 
-      </div>
-      <div className="fixed bottom-6 right-6 z-50">
+          {/* image */}
+          <motion.img
+            src={brand.hero?.image}
+            alt=""
+            className="rounded-2xl"
+            whileHover={{ scale: 1.03 }}
+          />
 
-        {/* Expanded Chat Box */}
-        {open && (
-          <div
-            className="w-72 rounded-2xl shadow-2xl overflow-hidden mb-3"
-            style={{ backgroundColor: "white" }}
+          {/* floating cards */}
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 4 }}
+            className="absolute -top-6 -left-6 bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-xs"
           >
-            {/* Header */}
-            <div className="px-4 py-3 text-white font-bold bg-emerald-600 flex justify-between items-center">
-              {brand.siteName} Support
-              <button
-                style={{ background: "none" }}
-                onClick={() => setOpen(false)}
-              >
-                ✕
-              </button>
-            </div>
+            ₹3.2L Generated
+          </motion.div>
 
-            {/* Body */}
-            <div className="p-4 text-sm text-gray-700 space-y-2">
-              <p className="font-semibold">Hi 👋</p>
-
-              <p>
-                Welcome to <span className="font-semibold">{brand.siteName}</span>.
-              </p>
-
-              <p>Have questions about courses or enrollment?</p>
-
-              <p className="text-xs text-gray-500">
-                Our team typically replies instantly on WhatsApp.
-              </p>
-            </div>
-
-            {/* Action */}
-            <div className="p-3 pt-0">
-              <button
-                onClick={openWhatsApp}
-                className="w-full py-3 text-white font-semibold transition"
-                style={{
-                  background: "rgb(5 150 105)",
-                  borderRadius: "50px",
-                }}
-              >
-                <MdWhatsapp className="inline mr-2" size={20} />
-                Chat on WhatsApp
-              </button>
-            </div>
-          </div>
-
-        )}
-
-        {/* Floating Button */}
-        {!open && (
-          <button
-            onClick={() => setOpen(!open)}
-            className="w-18 h-18 rounded-full flex items-center justify-center text-white shadow-xl"
-            style={{ background: "rgb(5 150 105)", borderRadius: "40%" }}
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 5 }}
+            className="absolute bottom-6 -right-6 bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-xs"
           >
-            <MdWhatsapp size={28} />
-          </button>
-        )}
+            +1200 Students
+          </motion.div>
 
-
-
+        </motion.div>
       </div>
+
+      {/* WhatsApp */}
+      <WhatsAppFloat/>
+
     </section>
-
   );
 }
