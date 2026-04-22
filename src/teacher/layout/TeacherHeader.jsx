@@ -10,7 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getUser, logout } from "../../shared/auth";
 import { useBranding } from "../../shared/hooks/useBranding";
-export default function AdminHeader({ onMenuClick }) {
+export default function TeacherHeader({ onMenuClick }) {
   const brand = useBranding();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ export default function AdminHeader({ onMenuClick }) {
         </button>
 
         <h1 className="text-sm md:text-lg font-semibold text-gray-800" style={{ fontSize: 20 }}>
-          Admin Panel
+          {brand.siteName?.toUpperCase() + " Teacher" || "ELearn Teacher"}
         </h1>
       </div>
 

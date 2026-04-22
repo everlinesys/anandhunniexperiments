@@ -52,7 +52,7 @@ export default function Courses() {
       </header>
 
       {/* --- COURSES GRID --- */}
-      <main className="max-w-7xl mx-auto px-6 py-16">
+      <main className="max-w-7xl mx-auto px-6 py-16 md:px-16">
 
         {courses.length === 0 ? (
           <div className="text-center text-gray-500">

@@ -12,13 +12,20 @@ export default function PublicHeader() {
 
   return (
     <header className={`${theme.layout.header} shadow-sm`}>
-      <div className="max-w-7xl mx-auto px-3 h-16 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-3 md:px-16 h-16 flex items-center justify-between">
 
         {/* Logo */}
         <Link
           to="/"
-          className={`${theme.text.title} text-lg`}
+          className={`${theme.text.title} text-sm flex items-center gap-2 font-bold`}
         >
+          <img
+
+            src={brand.logo || "/logo-placeholder.png"}
+            alt="Logo"
+            className="h-8 w-auto object-contain"
+          />
+
           {brand.siteName?.toUpperCase() || "ELearn"}
         </Link>
 
